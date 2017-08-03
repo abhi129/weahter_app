@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weather</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="/assets/js/Chart.min.js"></script>
+<!--  <canvas id="myChart" width="740" height="200"></canvas>  -->
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+
+    function gettingJSON(){
+      
+        $.getJSON("http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=3bd24d3e65a63c7b79a309885c6dc73b",function(json){
+        	var min=JSON.stringify(json.list[1].main.temp_min);
+        	var count=1;
+        	var d1,d2;
+        	var max=JSON.stringify(json.list[1].main.temp_min);
+
+        		
+        	while(count<30){
+        		 if(JSON.stringify(json.list[count].main.temp_min)>max){
+        			max=JSON.stringify(json.list[count].main.temp_min);
+        			d2=JSON.stringify(json.list[count].dt_txt);
+        		}
+        	 
+        	 if(JSON.stringify(json.list[count].main.temp_min)<min){
+        			min=JSON.stringify(json.list[count].main.temp_min);
+        			d1=JSON.stringify(json.list[count].dt_txt);
+        			//document.write(min);
+        		}
+        		count=count+1;
+        	}
+        	// }
+        	window.document.write("Minimum Temprature :  ");
+        	 window.document.write(min);
+              document.write("<br>");
+              window.document.write("Minimum temperature Date And Time:  ");
+               window.document.write(d1);
+        	 
+        	 document.write("<br>");
+        	window.document.write("Maximum Temprature :  ");
+            
+              window.document.write(JSON.stringify(max));
+              document.write("<br>");
+              window.document.write("Maximum temperature Date And Time:  ");
+               window.document.write(d2);
+      
+        });
+ 
+    }
+    </script>
+<script type="text/javascript">
+</script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body bgcolor="33F0FF">
+
+<script src="plot.js"></script>
+<canvas width="400" height="300" id="canv"></canvas>
+<script>
+
+   function getting1JSON(){
+   	 temps=[];
+	$.getJSON("http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=3bd24d3e65a63c7b79a309885c6dc73b",function(json){        
+         	
+      
+         	var cnt=1;
+         	var cnt1=1;
+         	var a;
+
+         	while(cnt<30){
+         		
+         		a=JSON.stringify(json.list[cnt].main.temp);
+         	temps.push(a);
+
+         	
+         	cnt=cnt+1;
+         }
+       //temps.sort();
+     
+       
+
+ var myp = new MakeDraw();
+ myp.id="canv";
+ myp.plotColor = 'rgba(red,green,blue,alpha)';  
+ myp.data=temps;
+ myp.enumerateV = 10;
+ myp.enumerateH = 10;
+ myp.plot();
+    
+});
+}
+</script>
+<button id = "getIt" onclick = "gettingJSON()">Get  Min and max temperature details</button>
+
+<button id = "getIt1" onclick = "getting1JSON()">Plot the Temperature graph</button>
+<div id="chartContainer" style="height: 300px; width: 100%;">
+</body>
+</html>
